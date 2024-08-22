@@ -1,23 +1,25 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useRecipeStore } from './recipeStore';
 
-const RecipeDetails = () => {
-  const { id } = useParams(); 
-  const recipe = useRecipeStore(state =>
-    state.recipes.find(recipe => recipe.id === parseInt(id))
-  );
-
-  if (!recipe) {
-    return <p>Recipe not found</p>;
-  }
+const RecipeList = () => {
+  const filteredRecipes = useRecipeStore(state => state.filteredRecipes);
 
   return (
     <div>
-      <h1>{recipe.title}</h1>
-      <p>{recipe.description}</p>
+      {filteredRecipes.map(recipe => (
+        <div key={recipe.id} style={{ marginBottom: '20px' }}>
+          <h3>
+            {/* Use Link to navigate to the RecipeDetails page */}
+            <Link to={`/recipes/${recipe.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+              {recipe.title}
+            </Link>
+          </h3>
+          <p>{recipe.description}</p>
+        </div>
+      ))}
     </div>
   );
 };
 
-export default RecipeDetails;
+export default RecipeList;

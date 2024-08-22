@@ -6,8 +6,9 @@ import RecipeDetails from './components/RecipeDetails';
 
 function App() {
   return (
-    <div>
-      <h1>Recipe Sharing App</h1>
+    <div style={{ padding: '20px' }}>
+      <h1>Recipe Sharing Application</h1>
+      <SearchBar />
       <AddRecipeForm />
       <RecipeList />
     </div>

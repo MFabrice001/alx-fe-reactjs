@@ -1,7 +1,12 @@
-// src/components/ProfileDetails.jsx
+import React from 'react';
+
 const ProfileDetails = () => {
-    return <div><h3>Profile Details</h3></div>;
-  };
-  
-  export default ProfileDetails;
-  
+  return (
+    <div>
+      <h2>Profile Details</h2>
+      {/* Profile details content here */}
+    </div>
+  );
+};
+
+export default ProfileDetails;

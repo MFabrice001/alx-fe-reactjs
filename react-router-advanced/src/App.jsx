@@ -7,6 +7,7 @@ import ProfileSettings from './components/ProfileSettings';
 import Post from './components/Post';
 import Login from './components/Login'; // Assume you have a Login component
 import Home from './components/Home';   // Assume you have a Home component
+import BlogPost from './components/BlogPost';
 
 function App() {
   const isAuthenticated = true; // Replace with your authentication logic
@@ -33,6 +34,10 @@ function App() {
 
         {/* Dynamic Route for Post */}
         <Route path="/post/:postId" element={<Post />} />
+
+        <Route path="/" element={<Home />} />
+        <Route path="/profile/*" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/blog/:id" element={<BlogPost />} /> {/* Dynamic Route for Blog Posts */}
       </Routes>
     </Router>
   );

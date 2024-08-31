@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import React from 'react';
 import TodoList from './TodoList';
+import TodoList from './components/TodoList';
 
 function App() {
   const [count, setCount] = useState(0)

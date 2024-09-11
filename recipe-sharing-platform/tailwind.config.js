@@ -2,7 +2,7 @@
 export default {
   content: [
     './src/**/*.{js,jsx,ts,tsx}',
-    './public/index.html',
+    './recipe-sharing-platform/index.html',
   ],
   theme: {
     extend: {},

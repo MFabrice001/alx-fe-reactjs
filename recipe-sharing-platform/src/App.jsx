@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import './App.css'
+import './index.css'
 import UserProfile from './components/UserProfile';
-import './App.css';
+import HomePage from './components/HomePage';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -32,6 +32,9 @@ function App() {
       </p>
       <div className="text-blue-500">
       <h1>Welcome to the Recipe Sharing Platform!</h1>
+    </div>
+    <div>
+      <HomePage />
     </div>
     </>
   )

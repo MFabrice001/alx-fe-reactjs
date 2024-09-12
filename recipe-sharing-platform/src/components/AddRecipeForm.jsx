@@ -6,17 +6,29 @@ function AddRecipeForm() {
   const [steps, setSteps] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const validateForm = () => {
     if (!title || !ingredients || !steps) {
       setError('All fields are required!');
-      return;
+      return false;
     }
 
-    // Submit logic here (e.g., sending the data to a server or updating state)
+    const ingredientsArray = ingredients.split(',').map(item => item.trim());
+    if (ingredientsArray.length < 2) {
+      setError('Please provide at least two ingredients, separated by commas.');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    // Submit logic here
     console.log({ title, ingredients, steps });
 
-    // Clear form and error after submission
+    // Clear form after submission
     setTitle('');
     setIngredients('');
     setSteps('');
@@ -39,7 +51,7 @@ function AddRecipeForm() {
           />
         </div>
         <div>
-          <label htmlFor="ingredients" className="block text-lg font-semibold mb-2">Ingredients</label>
+          <label htmlFor="ingredients" className="block text-lg font-semibold mb-2">Ingredients (comma separated)</label>
           <textarea
             id="ingredients"
             className="w-full p-2 border border-gray-300 rounded"

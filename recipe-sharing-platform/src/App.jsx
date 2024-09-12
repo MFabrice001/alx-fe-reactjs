@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './index.css'
 import UserProfile from './components/UserProfile';
 import HomePage from './components/HomePage';
+import RecipeDetail from './components/RecipeDetail';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,6 +13,12 @@ function App() {
   return (
     <>
       <div>
+      <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/recipe/:id" element={<RecipeDetail />} />
+      </Routes>
+    </Router>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>

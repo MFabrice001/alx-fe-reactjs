@@ -4,7 +4,7 @@ function AddRecipeForm() {
   const [title, setTitle] = useState('');
   const [ingredients, setIngredients] = useState('');
   const [steps, setSteps] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState(''); // Single error message or object for multiple errors
 
   const validateForm = () => {
     if (!title || !ingredients || !steps) {
@@ -25,10 +25,10 @@ function AddRecipeForm() {
     e.preventDefault();
     if (!validateForm()) return;
 
-    // Submit logic here
+    // Submit logic here (e.g., send data to server or update state)
     console.log({ title, ingredients, steps });
 
-    // Clear form after submission
+    // Clear form and error after submission
     setTitle('');
     setIngredients('');
     setSteps('');

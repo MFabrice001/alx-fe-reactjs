@@ -39,8 +39,8 @@ function RecipeDetail() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold">{recipe.title}</h1>
-      <img src={recipe.image} alt={recipe.title} className="w-full rounded-lg mb-4" />
-      <div className="text-lg">
+      <img src={recipe.image} alt={recipe.title} className="w-full rounded-lg mb-4 shadow" />
+      <div className="text-lg shadow">
         <h2 className="text-2xl font-semibold mb-2">Ingredients</h2>
         <ul className="list-disc pl-6">
           {recipe.ingredients.map((ingredient) => (
@@ -48,7 +48,7 @@ function RecipeDetail() {
           ))}
         </ul>
       </div>
-      <div className="text-lg">
+      <div className="text-lg shadow">
         <h2 className="text-2xl font-semibold mb-2">Instructions</h2>
         <ol className="list-decimal pl-6">
           {recipe.instructions.map((instruction) => (

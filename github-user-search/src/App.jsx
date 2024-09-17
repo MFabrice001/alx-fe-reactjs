@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import './App.css';
 import { fetchUser } from './services/githubApi';
+import SearchForm from './components/SearchForm';
+import UserProfile from './components/UserProfile';
+
 
 function App() {
   const [username, setUsername] = useState('');

@@ -4,7 +4,7 @@ import axios from 'axios';
 const githubApi = axios.create({
   baseURL: 'https://api.github.com',
   headers: {
-    Authorization: `token ${import.meta.env.VITE_GITHUB_API_KEY}`,  // Use the API key from .env
+    Authorization: `token ${import.meta.env.VITE_GITHUB_API_KEY}`,
   },
 });
 

@@ -11,10 +11,9 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Single handleSearch function
   const handleSearch = async (username) => {
     setLoading(true);
-    setError(''); // Reset any previous error
+    setError('');
     try {
       const data = await fetchUserData(username);
       setUserData(data);
@@ -22,7 +21,7 @@ function App() {
       setError('Looks like we can’t find the user');
       setUserData(null);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 

@@ -1,25 +1,28 @@
+// src/components/Search.jsx
+
 import { useState } from 'react';
 
-const Search = ({ onSearch }) => {
-  const [username, setUsername] = useState('');
+function Search({ onSearch }) {
+  const [inputValue, setInputValue] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSearch(username); // Call the function passed via props
+    if (inputValue.trim()) {
+      onSearch(inputValue);  // Call the onSearch function with the input value
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
         placeholder="Enter GitHub username"
-        required
       />
       <button type="submit">Search</button>
     </form>
   );
-};
+}
 
 export default Search;

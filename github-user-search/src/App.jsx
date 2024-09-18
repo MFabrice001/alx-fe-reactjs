@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import './App.css'; // Assuming App.css exists for styling
+import './App.css';
 import UserSearch from './components/UserSearch';
 import UserList from './components/UserList';
-// Import the correct function from the appropriate service
-import { fetchUserData } from './services/githubService'; // Adjust path if needed
+import { fetchUserData } from './services/githubService';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');

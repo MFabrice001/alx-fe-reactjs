@@ -10,7 +10,7 @@ function Search({ onSearch }) {
     event.preventDefault();
     setLoading(true);
     setError('');
-    setUserData(null); // Clear previous user data
+    setUserData(null);
 
     try {
       const data = await onSearch(searchTerm); // Call the parent search function

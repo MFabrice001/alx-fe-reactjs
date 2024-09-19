@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import './App.css';
-import UserSearch from './components/UserSearch';
+import UserSearch from './components/UserSearch'; // Remove if not needed
 import UserList from './components/UserList';
 import { fetchUserData } from './services/githubService';
+import Search from './components/Search';
+import UserProfile from './components/UserProfile'; // Assuming UserProfile exists
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([]); // Remove if not needed (for basic search)
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSearch = async (term) => {
+  const handleSearch = async (term) => { // For searching users (optional)
     try {
       const response = await fetch(`https://api.github.com/search/users?q=${term}`);
       const data = await response.json();
@@ -22,7 +24,7 @@ function App() {
     }
   };
 
-  const handleUserSearch = async (username) => { // Renamed for clarity
+  const handleUserSearch = async (username) => { // For searching user profile
     setLoading(true);
     setError('');
     try {
@@ -39,28 +41,19 @@ function App() {
   return (
     <div className="App">
       <div>
-        <UserSearch onSearch={handleSearch} />
-        <UserList users={users} />
+        <Search onSearch={handleSearch} /> {/* Optional for general user search */}
+        <UserSearch onSearch={handleUserSearch} /> {/* For searching user profile */}
+        <UserList users={users} /> {/* Optional for displaying search results */}
       </div>
 
       <h1>GitHub User Search</h1>
 
-      {/* Use the Search component (if it serves a different purpose) */}
-      {/* <Search onSearch={handleSearch} /> */}  <-- Comment out if not needed
-
-      {/* Display loading message, error, or user data */}
+      {/* Display user profile or search results */}
+      {userData && <UserProfile userData={userData} />} {/* If using UserProfile */}
+      {/* Or display loading message/error/search results (if using UserList) */}
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
-      {userData && (
-        <div>
-          <h2>{userData.login}</h2>
-          <img src={userData.avatar_url} alt="avatar" width="100" />
-          <p>{userData.bio}</p>
-          <a href={userData.html_url} target="_blank" rel="noopener noreferrer">
-            View Profile
-          </a>
-        </div>
-      )}
+
     </div>
   );
 }

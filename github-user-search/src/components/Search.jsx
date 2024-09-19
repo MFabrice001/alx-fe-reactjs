@@ -1,28 +1,16 @@
 import React, { useState } from 'react';
-import { fetchUserData } from '../services/githubService'; // Import the fetchUserData function
 
 function Search({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    setLoading(true);
-    setError('');
-    setUserData(null); // Clear previous user data
-
-    try {
-      const data = await fetchUserData(searchTerm); // Use fetchUserData to fetch GitHub user data
-      setUserData(data);
-    } catch (err) {
-      setError("Looks like we can't find the user"); // Error message
-    } finally {
-      setLoading(false); // Stop loading indicator
-    }
-
-    setSearchTerm(''); // Clear input after submission
+    onSearch(searchTerm)
+      .catch(() => {
+        setError("Looks like we can't find the user");
+      });
+    setSearchTerm(''); // Clear search term after submission
   };
 
   return (
@@ -38,23 +26,9 @@ function Search({ onSearch }) {
         <button type="submit">Search</button>
       </form>
 
-      {/* Loading state */}
-      {loading && <p>Loading...</p>}
-
       {/* Error state */}
-      {error && <p>{error}</p>} {/* Error message displayed here */}
+      {error && <p>{error}</p>} {/* Display error message */}
 
-      {/* User data display */}
-      {userData && (
-        <div>
-          <h2>{userData.login}</h2>
-          <img src={userData.avatar_url} alt="User avatar" width="100" />
-          <p>{userData.bio}</p>
-          <a href={userData.html_url} target="_blank" rel="noopener noreferrer">
-            View Profile
-          </a>
-        </div>
-      )}
     </div>
   );
 }

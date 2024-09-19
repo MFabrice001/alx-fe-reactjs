@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { fetchUserData } from '../services/githubService'; // Import fetchUserData
 
 function Search({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -14,10 +13,10 @@ function Search({ onSearch }) {
     setUserData(null); // Clear previous user data
 
     try {
-      const data = await fetchUserData(searchTerm); // Use fetchUserData instead of onSearch
+      const data = await onSearch(searchTerm); // Call the parent search function
       setUserData(data);
     } catch (err) {
-      setError("Looks like we can't find the user"); // Error message added here
+      setError("Looks like we cant find the user"); // Error message added here
     } finally {
       setLoading(false); // Stop loading indicator
     }

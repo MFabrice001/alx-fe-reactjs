@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 
 function Search({ onSearch }) {
@@ -5,8 +6,8 @@ function Search({ onSearch }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onSearch(searchTerm);
-    setSearchTerm('');
+    onSearch(searchTerm); // Pass the search term to the parent (App.jsx)
+    setSearchTerm(''); // Clear the input after submission
   };
 
   return (

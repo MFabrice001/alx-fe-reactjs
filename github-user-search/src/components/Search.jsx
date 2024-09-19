@@ -10,13 +10,13 @@ function Search({ onSearch }) {
     event.preventDefault();
     setLoading(true);
     setError('');
-    setUserData(null);
+    setUserData(null); // Clear previous user data
 
     try {
       const data = await onSearch(searchTerm); // Call the parent search function
       setUserData(data);
     } catch (err) {
-      setError("Looks like we can't find the user");
+      setError("Looks like we cant find the user"); // Error message added here
     } finally {
       setLoading(false); // Stop loading indicator
     }
@@ -41,7 +41,7 @@ function Search({ onSearch }) {
       {loading && <p>Loading...</p>}
 
       {/* Error state */}
-      {error && <p>{error}</p>}
+      {error && <p>{error}</p>} {/* Error message displayed here */}
 
       {/* User data display */}
       {userData && (

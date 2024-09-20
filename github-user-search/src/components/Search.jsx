@@ -5,36 +5,58 @@ function Search({ onSearch }) {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [location, setLocation] = useState('');
+  const [minRepos, setMinRepos] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     setError('');
-    setUserData(null); // Clear previous user data
+    setUserData(null);
 
     try {
-      const data = await onSearch(searchTerm); // Call the parent search function
+      const data = await onSearch({ searchTerm, location, minRepos }); // Call the parent search function with all search parameters
       setUserData(data);
     } catch (err) {
-      setError("Looks like we cant find the user"); // Error message added here
+      setError("Looks like we can't find the user"); // Error message added here
     } finally {
       setLoading(false); // Stop loading indicator
     }
 
-    setSearchTerm(''); // Clear the input after submission
+    // Reset the input fields
+    setSearchTerm('');
+    setLocation('');
+    setMinRepos('');
   };
 
   return (
-    <div>
+    <div className="p-4">
       {/* Search form */}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
-          placeholder="Search for GitHub Users"
+          placeholder="Username"
           value={searchTerm}
-          onChange={(event) => setSearchTerm(event.target.value)}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full px-4 py-2 border rounded"
         />
-        <button type="submit">Search</button>
+        <input
+          type="text"
+          placeholder="Location"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          className="w-full px-4 py-2 border rounded"
+        />
+        <input
+          type="number"
+          placeholder="Minimum Repositories"
+          value={minRepos}
+          onChange={(e) => setMinRepos(e.target.value)}
+          className="w-full px-4 py-2 border rounded"
+        />
+        <button type="submit" className="w-full px-4 py-2 text-white bg-blue-500 rounded">
+          Search
+        </button>
       </form>
 
       {/* Loading state */}

@@ -1,3 +1,4 @@
+// src/services/githubService.js
 
 const GITHUB_API_BASE_URL = 'https://api.github.com';
 
@@ -10,7 +11,7 @@ const GITHUB_API_BASE_URL = 'https://api.github.com';
  */
 export const fetchUserData = async (username, location = '', minRepos = '') => {
   try {
-    // Constructing the query string
+    // Construct the query string with additional parameters
     let query = `q=${username}`;
     
     // Add location filter if provided
@@ -23,7 +24,7 @@ export const fetchUserData = async (username, location = '', minRepos = '') => {
       query += `+repos:>=${minRepos}`;
     }
     
-    // API request to GitHub search users endpoint
+    // Make API request to GitHub search users endpoint
     const response = await fetch(`${GITHUB_API_BASE_URL}/search/users?${query}`);
 
     if (!response.ok) {

@@ -16,7 +16,7 @@ function Search({ onSearch }) {
           const data = await response.json();
           setSearchResults(data.items);
         } catch (error) {
-          setError('An error occurred while searching users. Please try again later.');
+          setError('Looks like we cant find the user');
         } finally {
           setIsLoading(false);
         }

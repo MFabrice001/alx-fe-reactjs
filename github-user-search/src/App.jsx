@@ -1,5 +1,5 @@
 import React from 'react';
-import Search from './components/Search'; // Assuming Search.jsx is in the correct path
+import Search from './components/Search';
 
 function App() {
   // ... other code

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { fetchUserData } from '../services/githubService';
 
 function Search({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -7,6 +8,7 @@ function Search({ onSearch }) {
   const [users, setUsers] = useState([]); // Changed to hold multiple users
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -15,7 +17,8 @@ function Search({ onSearch }) {
     setUsers([]); // Clear previous results
 
     try {
-      const data = await onSearch(searchTerm, location, minRepos);
+      const data = await fetchUserData(searchTerm, location, minRepos);
+      //const data = await onSearch(searchTerm, location, minRepos);
       setUsers(data); // Updated to set multiple users
     } catch (err) {
       setError("Looks like we can't find the user");

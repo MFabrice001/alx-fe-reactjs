@@ -35,7 +35,7 @@ function Search({ onSearch }) {
       }}>
         <input
           type="text"
-          placeholder="Search for GitHub Users"
+          placeholder="fetchUserData"
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
         />

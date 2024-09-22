@@ -1,92 +1,60 @@
 import React, { useState } from 'react';
-import { fetchUserData } from '../services/githubService';
+import './styles.css';
 
 function Search({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [location, setLocation] = useState('');
-  const [minRepos, setMinRepos] = useState('');
-  const [users, setUsers] = useState([]); // Changed to hold multiple users
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  
+  const [minRepos, setMinRepos] = useState(0);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    setLoading(true);
-    setError('');
-    setUsers([]); // Clear previous results
-
-    try {
-      const data = await onSearch(searchTerm, location, minRepos);
-      setUsers(data); // Updated to set multiple users
-    } catch (err) {
-      setError("Looks like we can't find the user");
-    } finally {
-      setLoading(false);
-    }
-
-    setSearchTerm(''); // Clear input after submission
+    const query = `q=${searchTerm}`;
+    if (location) query += `+location:${location}`;
+    if (minRepos) query += `+min_public_repos:${minRepos}`;
+    onSearch(query);
+    setSearchTerm('');
     setLocation('');
-    setMinRepos('');
+    setMinRepos(0);
   };
 
   return (
-    <div className="p-4">
-      {/* Search Form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="search-form">
+      <div className="search-input">
+        <label htmlFor="username">Username</label>
         <input
           type="text"
-          placeholder="Username"
+          id="username"
+          placeholder="Search for GitHub user"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full px-4 py-2 border rounded"
+          onChange={(event) => setSearchTerm(event.target.value)}
         />
-        <input
-          type="text"
-          placeholder="Location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className="w-full px-4 py-2 border rounded"
-        />
-        <input
-          type="number"
-          placeholder="Minimum Repositories"
-          value={minRepos}
-          onChange={(e) => setMinRepos(e.target.value)}
-          className="w-full px-4 py-2 border rounded"
-        />
-        <button type="submit" className="w-full px-4 py-2 text-white bg-blue-500 rounded">
-          Search
-        </button>
-      </form>
-
-      {/* Loading State */}
-      {loading && <p className="text-center">Loading...</p>}
-
-      {/* Error Message */}
-      {error && <p className="text-center text-red-500">{error}</p>}
-
-      {/* No Results Found */}
-      {!loading && users.length === 0 && !error && (
-        <p className="text-center">No users found. Try different search criteria.</p>
-      )}
-
-      {/* User Data Display */}
-      <div className="space-y-4">
-        {users.map((user) => (
-          <div key={user.id} className="p-4 border rounded flex flex-col sm:flex-row items-center">
-            <img src={user.avatar_url} alt="User avatar" className="w-24 h-24 rounded-full mr-4" />
-            <div className="flex flex-col justify-between">
-              <h2 className="text-xl font-bold">{user.login}</h2>
-              <p className="text-gray-700">{user.bio}</p>
-              <a href={user.html_url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                View Profile
-              </a>
-            </div>
-          </div>
-        ))}
       </div>
-    </div>
+      <div className="search-filters">
+        <div className="filter-item">
+          <label htmlFor="location">Location</label>
+          <input
+            type="text"
+            id="location"
+            placeholder="Filter by location"
+            value={location}
+            onChange={(event) => setLocation(event.target.value)}
+          />
+        </div>
+        <div className="filter-item">
+          <label htmlFor="minRepos">Min Repositories</label>
+          <input
+            type="number"
+            id="minRepos"
+            placeholder="Minimum number of repositories"
+            value={minRepos}
+            onChange={(event) => setMinRepos(event.target.value)}
+          />
+        </div>
+      </div>
+      <button type="submit" className="search-button">
+        Search
+      </button>
+    </form>
   );
 }
 

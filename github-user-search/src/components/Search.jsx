@@ -2,36 +2,35 @@ import React, { useState } from 'react';
 
 function Search({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const [location, setLocation] = useState('');
   const [minRepos, setMinRepos] = useState('');
+  const [users, setUsers] = useState([]); // Changed to hold multiple users
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     setError('');
-    setUserData(null);
+    setUsers([]); // Clear previous results
 
     try {
-      const data = await onSearch({ searchTerm, location, minRepos }); // Call the parent search function with all search parameters
-      setUserData(data);
+      const data = await onSearch(searchTerm, location, minRepos);
+      setUsers(data); // Updated to set multiple users
     } catch (err) {
-      setError("Looks like we can't find the user"); // Error message added here
+      setError("Looks like we can't find the user");
     } finally {
-      setLoading(false); // Stop loading indicator
+      setLoading(false);
     }
 
-    // Reset the input fields
-    setSearchTerm('');
+    setSearchTerm(''); // Clear input after submission
     setLocation('');
     setMinRepos('');
   };
 
   return (
     <div className="p-4">
-      {/* Search form */}
+      {/* Search Form */}
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
@@ -59,23 +58,32 @@ function Search({ onSearch }) {
         </button>
       </form>
 
-      {/* Loading state */}
-      {loading && <p>Loading...</p>}
+      {/* Loading State */}
+      {loading && <p className="text-center">Loading...</p>}
 
-      {/* Error state */}
-      {error && <p>{error}</p>} {/* Error message displayed here */}
+      {/* Error Message */}
+      {error && <p className="text-center text-red-500">{error}</p>}
 
-      {/* User data display */}
-      {userData && (
-        <div>
-          <h2>{userData.login}</h2>
-          <img src={userData.avatar_url} alt="User avatar" width="100" />
-          <p>{userData.bio}</p>
-          <a href={userData.html_url} target="_blank" rel="noopener noreferrer">
-            View Profile
-          </a>
-        </div>
+      {/* No Results Found */}
+      {!loading && users.length === 0 && !error && (
+        <p className="text-center">No users found. Try different search criteria.</p>
       )}
+
+      {/* User Data Display */}
+      <div className="space-y-4">
+        {users.map((user) => (
+          <div key={user.id} className="p-4 border rounded flex flex-col sm:flex-row items-center">
+            <img src={user.avatar_url} alt="User avatar" className="w-24 h-24 rounded-full mr-4" />
+            <div className="flex flex-col justify-between">
+              <h2 className="text-xl font-bold">{user.login}</h2>
+              <p className="text-gray-700">{user.bio}</p>
+              <a href={user.html_url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                View Profile
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

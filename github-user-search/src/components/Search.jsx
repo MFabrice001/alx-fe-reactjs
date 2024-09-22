@@ -35,7 +35,7 @@ function Search({ onSearch }) {
       }}>
         <input
           type="text"
-          placeholder="fetchUserData"
+          placeholder="fetchUserData"  // updated
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
         />

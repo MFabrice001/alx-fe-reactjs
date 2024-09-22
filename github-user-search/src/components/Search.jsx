@@ -17,8 +17,7 @@ function Search({ onSearch }) {
     setUsers([]); // Clear previous results
 
     try {
-      const data = await fetchUserData(searchTerm, location, minRepos);
-      //const data = await onSearch(searchTerm, location, minRepos);
+      const data = await onSearch(searchTerm, location, minRepos);
       setUsers(data); // Updated to set multiple users
     } catch (err) {
       setError("Looks like we can't find the user");

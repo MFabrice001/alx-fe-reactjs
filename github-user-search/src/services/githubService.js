@@ -1,44 +1,29 @@
+// src/services/githubService.js
 
-import axios from 'axios';
+const GITHUB_API_BASE_URL = 'https://api.github.com';
 
-const axiosInstance = axios.create({
-  baseURL: 'https://api.github.com',
-  headers: {
-    Authorization: `token ${import.meta.env.VITE_GITHUB_API_KEY}`, // Include your GitHub token if available
-  },
-});
-
-export const fetchUserData = async ({ searchTerm, location, minRepos, page = 1 }) => {
+export const fetchUserData = async (username, location = '', minRepos = '') => {
   try {
-    let query = '';
+    // Constructing the query string with username, location, and minimum repositories
+    let query = `q=${username}`;
 
-    if (searchTerm) {
-      query += `${searchTerm} in:login `;
-    }
     if (location) {
-      query += `location:${location} `;
+      query += `+location:${location}`;
     }
+
     if (minRepos) {
-      query += `repos:>=${minRepos} `;
+      query += `+repos:>=${minRepos}`;
     }
 
-    const response = await axiosInstance.get(
-      `/search/users?q=${encodeURIComponent(query)}&page=${page}&per_page=30`
-    );
+    const response = await fetch(`${GITHUB_API_BASE_URL}/search/users?${query}`);
 
-    return response.data; // Contains items array with user data
-  } catch (error) {
-    console.error('Error fetching user data:', error);
-    throw error;
-  }
-};
+    if (!response.ok) {
+      throw new Error('Failed to fetch data from GitHub API');
+    }
 
-export const fetchUserDetails = async (username) => {
-  try {
-    const response = await axiosInstance.get(`/users/${username}`);
-    return response.data;
+    const data = await response.json();
+    return data.items; // GitHub Search API returns results in 'items'
   } catch (error) {
-    console.error('Error fetching user details:', error);
-    throw error;
+    throw new Error(`An error occurred: ${error.message}`);
   }
 };
